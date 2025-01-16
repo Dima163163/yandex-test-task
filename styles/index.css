@@ -206,7 +206,7 @@ button {
 }
 
 .button {
-  padding: 10px 50px;
+  padding: 12px 50px;
   width: 263px;
   height: 72px;
   background: var(--gb-black);
