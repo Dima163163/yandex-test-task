@@ -7,11 +7,16 @@ export const initMembersSlider = () => {
   const currentNumb = document.querySelector(
     '.members_slide_count_text_current'
   );
-  const widthSlide = parseInt(getComputedStyle(memberSlides[0]).width);
-  const marginRightSlide = parseInt(
-    getComputedStyle(memberSlides[0]).marginRight
-  );
-  const totalWidthSlide = widthSlide + marginRightSlide;
+
+  const calculateWidthSlide = () => {
+    const widthSlide = parseInt(getComputedStyle(memberSlides[0]).width);
+    const marginRightSlide = parseInt(
+      getComputedStyle(memberSlides[0]).marginRight
+    );
+    const totalWidthSlide = widthSlide + marginRightSlide;
+
+    return totalWidthSlide;
+  }
 
   let startCountSlide = 3;
   let countSlide = 0;
@@ -43,10 +48,10 @@ export const initMembersSlider = () => {
     activeSlideCountHandler();
   });
 
-  const slidesHandler = (type) => {
+  const slidesHandler = (type, width) => {
     if (type === 'next') {
       if (countSlide < memberSlides.length) {
-        membersSlider.scrollBy({ left: totalWidthSlide, behavior: 'smooth' });
+        membersSlider.scrollBy({ left: width, behavior: 'smooth' });
         countSlide++;
         currentNumb.textContent = countSlide;
       } else {
@@ -57,7 +62,7 @@ export const initMembersSlider = () => {
     }
     if (type === 'prev') {
       if (countSlide > startCountSlide) {
-        membersSlider.scrollBy({ left: -totalWidthSlide, behavior: 'smooth' });
+        membersSlider.scrollBy({ left: -width, behavior: 'smooth' });
         countSlide--;
         currentNumb.textContent = countSlide;
       } else {
@@ -72,14 +77,17 @@ export const initMembersSlider = () => {
   };
 
   btnNext.addEventListener('click', () => {
-    slidesHandler('next');
+    const totalWidthSlide = calculateWidthSlide();
+    slidesHandler('next', totalWidthSlide);
   });
 
   btnPrev.addEventListener('click', () => {
-    slidesHandler('prev');
+    const totalWidthSlide = calculateWidthSlide();
+    slidesHandler('prev', totalWidthSlide);
   });
 
   setInterval(() => {
-    slidesHandler('next');
+    const totalWidthSlide = calculateWidthSlide();
+    slidesHandler('next', totalWidthSlide);
   }, 4000);
 };
